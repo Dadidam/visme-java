@@ -16,7 +16,7 @@ public class UserService {
     private final UserDao userDao;
 
     @Autowired
-    public UserService(@Qualifier("localDao") UserDao userDao) {
+    public UserService(@Qualifier("localUserDao") UserDao userDao) {
         this.userDao = userDao;
     }
 

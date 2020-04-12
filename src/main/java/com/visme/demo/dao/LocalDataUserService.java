@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Repository("localDao")
-public class LocalDataService implements UserDao {
+@Repository("localUserDao")
+public class LocalDataUserService implements UserDao {
 
     private static List<User> DB = new ArrayList<>();
 
