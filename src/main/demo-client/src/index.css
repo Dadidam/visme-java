@@ -54,3 +54,7 @@ code {
 #root .ant-layout, #root footer {
   background-color: #e6e5e0;
 }
+
+.btn-padding {
+  padding: 15px 0;
+}

@@ -8,6 +8,8 @@ export default function (state = null, action) {
       return null;
     case userAction.AUTH_ERROR:
       return { ...state, authError: action.payload };
+    case userAction.SIGNUP_ERROR:
+      return { ...state, signupError: action.payload };
     default:
       return state;
   }

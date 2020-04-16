@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Layout, Menu, Breadcrumb } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, HeartTwoTone } from "@ant-design/icons";
 import { logoutUser } from "actions/user";
+import Logo from "containers/Logo";
 
 const { Header, Content, Footer } = Layout;
 
@@ -28,7 +29,12 @@ const MainLayout = ({ children, user, logoutUser }) => (
       <div className="site-layout-content">{children}</div>
     </Content>
     <Footer style={{ textAlign: "center" }}>
-      Visme-Tools Demo ©2020 Created by Ilia Vorontcov
+      <Logo />
+      <p>Visme-Tools Demo ©2020 Created by Ilia Vorontcov</p>
+      <p>
+        <HeartTwoTone twoToneColor="#eb2f96" /> powered by React/Redux and Ant
+        Design <HeartTwoTone twoToneColor="#eb2f96" />
+      </p>
     </Footer>
   </Layout>
 );
