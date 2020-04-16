@@ -1,9 +1,12 @@
 package com.visme.demo.dao;
 
 import com.visme.demo.helpers.CryptHelper;
+import com.visme.demo.model.Credentials;
 import com.visme.demo.model.User;
+import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Repository;
 
+import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,5 +66,36 @@ public class LocalDataUserService implements UserDao {
                     }
                     return 0;
                 }).orElse(0);
+    }
+
+    @Override
+    public Optional<User> selectUserByEmail(String email) {
+        return DB.stream()
+                .filter(user -> user.getEmail().equals(email))
+                .findFirst();
+    }
+
+    @Override
+    public Optional<User> checkUserCredentials(Credentials credentials) {
+        // look up for a username first
+        Optional<User> possibleUser = DB.stream()
+                .filter(dbUser -> dbUser.getEmail().equals(credentials.getEmail()))
+                .findFirst();
+
+         if (possibleUser.isPresent()) {
+            User realUser = possibleUser.get();
+            // check if passed password matches to its hash
+            Boolean passEquals = CryptHelper.isMatched(credentials.getPassword(), realUser.getPassword());
+
+            // compare passwords' hashes (passed and saved in DB)
+            if (passEquals) {
+                return possibleUser;
+            } else {
+                System.out.println("Passwords don't macth");
+                return null;
+            }
+        };
+        System.out.println("User with passed email doesn't exist");
+        return null;
     }
 }

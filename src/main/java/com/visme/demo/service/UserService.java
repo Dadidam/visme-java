@@ -1,6 +1,7 @@
 package com.visme.demo.service;
 
 import com.visme.demo.dao.UserDao;
+import com.visme.demo.model.Credentials;
 import com.visme.demo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -32,11 +33,19 @@ public class UserService {
         return userDao.selectUserById(id);
     }
 
+    public Optional<User> getUserByEmail(String email) {
+        return userDao.selectUserByEmail(email);
+    }
+
     public int deleteUser(UUID id) {
         return userDao.removeUserById(id);
     }
 
     public int updateUserInfo(UUID id, User updatedInfo) {
         return userDao.updateUserById(id, updatedInfo);
+    }
+
+    public Optional<User> authUser(Credentials credentials) {
+        return userDao.checkUserCredentials(credentials);
     }
 }

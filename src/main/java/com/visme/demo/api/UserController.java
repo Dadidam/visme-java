@@ -1,5 +1,6 @@
 package com.visme.demo.api;
 
+import com.visme.demo.model.Credentials;
 import com.visme.demo.model.User;
 import com.visme.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.UUID;
 
 @RequestMapping("api/v1/user")
 @RestController
+@CrossOrigin("localhost:3000")
 public class UserController {
 
     private final UserService userService;
@@ -43,5 +45,10 @@ public class UserController {
     @PutMapping(path = "{id}")
     public void updateUserInfo(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userInfoToUpdate) {
         userService.updateUserInfo(id, userInfoToUpdate);
+    }
+
+    @PostMapping(path = "/auth")
+    public User authUser(@Valid @NonNull @RequestBody Credentials credentials) {
+        return userService.authUser(credentials).orElse(null);
     }
 }
