@@ -5,14 +5,7 @@ import Routes from "./Routes";
 import "./App.css";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <Routes />
-      </header>
-      <footer>Created with love by Ilia Vorontcov</footer>
-    </div>
-  );
+  return <Routes />;
 }
 
 export default withRouter(connect(null)(App));

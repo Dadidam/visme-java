@@ -16,6 +16,41 @@ code {
   text-align: center;
 }
 
-h1 {
-  color: #999;
+.login-form {
+  width: 350px;
+  text-align: center;
+}
+
+.login-form h3 {
+  color: #b2ada9;
+}
+
+.login-form img {
+  padding-bottom: 25px;
+}
+
+.error-banner {
+  position: absolute;
+  top: 1%;
+}
+
+.site-layout-content {
+  background: #fff;
+  padding: 24px;
+  min-height: 280px;
+}
+.main-layout-brand {
+  width: 30%;
+  /* height: 31px; */
+  background: rgba(255, 255, 255, 0.2);
+  /* margin: 16px 24px 16px 0; */
+  float: right;
+  color: #c5d1dd;
+  padding: 0 15px;
+  font-size: 15px;
+  text-align: center;
+}
+
+#root .ant-layout, #root footer {
+  background-color: #e6e5e0;
 }

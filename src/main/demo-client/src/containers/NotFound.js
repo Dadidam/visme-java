@@ -1,8 +1,19 @@
 import React from "react";
+import { Result, Button } from "antd";
+import { Link } from "react-router-dom";
+import GuestLayout from "./GuestLayout";
 
 export default () => (
-  <div className="text-center">
-    <h1>404</h1>
-    <h2>Sorry, page not found!</h2>
-  </div>
+  <GuestLayout>
+    <Result
+      status="404"
+      title="404"
+      subTitle="Sorry, the page you visited does not exist."
+      extra={
+        <Button type="primary">
+          <Link to="/">Back Home</Link>
+        </Button>
+      }
+    />
+  </GuestLayout>
 );

@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Form, Input, Button, Space } from "antd";
+import ErrorBanner from "containers/ErrorBanner";
+import { authUser } from "actions/user";
 import Logo from "./Logo";
 
 const layout = {
@@ -19,19 +21,24 @@ const tailLayout = {
   }
 };
 
-const Signup = () => {
+const LoginForm = ({ authUser, user }) => {
   const onFinish = values => {
     console.log("Success:", values);
+    authUser(values);
   };
 
   const onFinishFailed = errorInfo => {
     console.log("Failed:", errorInfo);
   };
 
+  const renderErrorMessage = () => {
+    if (user && user.authError)
+      return <ErrorBanner message="Incorrect email/password" />;
+  };
+
   return (
-    <div className="signup-form">
+    <div className="login-form">
       <Logo />
-      <h3>Create New Account</h3>
       <Form
         {...layout}
         name="basic"
@@ -41,6 +48,7 @@ const Signup = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
       >
+        {renderErrorMessage()}
         <Form.Item
           label="Email"
           name="email"
@@ -69,15 +77,15 @@ const Signup = () => {
         </Form.Item>
 
         <Form.Item {...tailLayout}>
-          <Space>
+          <div>
             <Button type="primary" htmlType="submit">
-              Submit
+              Login &rarr;
             </Button>
-
+            <Space />
             <Button type="link">
               <Link to="/signup">Create Account</Link>
             </Button>
-          </Space>
+          </div>
         </Form.Item>
       </Form>
     </div>
@@ -88,4 +96,4 @@ function mapStateToProps({ user }) {
   return { user };
 }
 
-export default connect(mapStateToProps)(Signup);
+export default connect(mapStateToProps, { authUser })(LoginForm);
