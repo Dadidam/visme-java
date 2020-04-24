@@ -7,14 +7,16 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectDao {
-    int insertProject(UUID id, Project project);
+    Project insertProject(UUID id, Project project);
 
-    default int insertProject(Project project) {
+    default Project insertProject(Project project) {
         UUID id = UUID.randomUUID();
         return insertProject(id, project);
     }
 
     List<Project> selectAllUserProjects(UUID userId);
+
+    List<Project> selectAllProjects();
 
     Optional<Project> selectProjectById(UUID id);
 

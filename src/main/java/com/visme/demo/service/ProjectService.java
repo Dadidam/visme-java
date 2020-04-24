@@ -20,12 +20,16 @@ public class ProjectService {
         this.projectDao = projectDao;
     }
 
-    public int addProject(Project project) {
+    public Project addProject(Project project) {
         return projectDao.insertProject(project);
     }
 
     public List<Project> fetchUserProjects(UUID userId) {
         return projectDao.selectAllUserProjects(userId);
+    }
+
+    public List<Project> fetchProjectList() {
+        return projectDao.selectAllProjects();
     }
 
     public Optional<Project> getProjectById(UUID id) {

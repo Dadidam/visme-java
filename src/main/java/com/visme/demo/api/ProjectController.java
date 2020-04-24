@@ -23,13 +23,18 @@ public class ProjectController {
     }
 
     @PostMapping
-    public void addProject(@Valid @NonNull @RequestBody Project project) {
-        projectService.addProject(project);
+    public Project addProject(@Valid @NonNull @RequestBody Project project) {
+        return projectService.addProject(project);
     }
 
     @GetMapping(path = "/user/{userId}")
     public List<Project> fetchProjects(@PathVariable("userId") UUID userId) {
         return projectService.fetchUserProjects(userId);
+    }
+
+    @GetMapping(path = "/list")
+    public List<Project> fetchProjectList() {
+        return projectService.fetchProjectList();
     }
 
     @GetMapping(path = "{id}")

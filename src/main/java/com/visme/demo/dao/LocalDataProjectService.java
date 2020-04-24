@@ -16,14 +16,20 @@ public class LocalDataProjectService implements ProjectDao {
     private static List<Project> DB = new ArrayList<>();
 
     @Override
-    public int insertProject(UUID id, Project project) {
-        DB.add(new Project(id, project.getUserId(), project.getTitle(), project.isFavorite(), LocalDate.now(), null));
-        return 1;
+    public Project insertProject(UUID id, Project project) {
+        Project projectToAdd = new Project(id, project.getUserId(), project.getTitle(), project.isFavorite(), LocalDate.now(), LocalDate.now());
+        DB.add(projectToAdd);
+        return projectToAdd;
     }
 
     @Override
     public List<Project> selectAllUserProjects(UUID userId) {
         return DB.stream().filter(project -> project.getUserId().equals(userId)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Project> selectAllProjects() {
+        return new ArrayList<>(DB);
     }
 
     @Override
