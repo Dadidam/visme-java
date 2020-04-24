@@ -13,7 +13,7 @@ import java.util.UUID;
 
 @RequestMapping("api/v1/user")
 @RestController
-@CrossOrigin("localhost:3000")
+@CrossOrigin("*")
 public class UserController {
 
     private final UserService userService;
@@ -24,8 +24,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void addUser(@Valid @NonNull @RequestBody User user) {
-        userService.addUser(user);
+    public User addUser(@Valid @NonNull @RequestBody User user) {
+        return userService.addUser(user);
     }
 
     @GetMapping public List<User> fetchUsers() {

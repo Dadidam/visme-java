@@ -71,3 +71,21 @@ export const signupUser = userCredentials => async dispatch => {
     return Promise.reject(e);
   }
 };
+
+export const fetchAllUsers = () => async dispatch => {
+  try {
+    const url = `${apiUrl}/user`;
+    const response = await axios.get(url);
+    const payload = response.data;
+
+    // add users to redux storage
+    dispatch({
+      type: userActions.FETCH_USER_LIST,
+      payload
+    });
+
+    return response;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};

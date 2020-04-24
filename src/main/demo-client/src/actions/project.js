@@ -37,7 +37,7 @@ export const addProject = (projectDetails, userId) => async dispatch => {
   }
 };
 
-// create new project via API
+// fetch user's project list
 export const fetchUserProjects = userId => async dispatch => {
   try {
     const url = `${apiUrl}/project/user/${userId}`;

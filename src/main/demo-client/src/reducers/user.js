@@ -10,6 +10,8 @@ export default function (state = null, action) {
       return { ...state, authError: action.payload };
     case userAction.SIGNUP_ERROR:
       return { ...state, signupError: action.payload };
+    case userAction.FETCH_USER_LIST:
+      return { ...state, list: action.payload };
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import ProjectForm from "containers/ProjectForm";
 
 const ProjectAdd = ({ history }) => {
   return (
-    <MainLayout>
+    <MainLayout history={history}>
       <ProjectForm history={history} />
     </MainLayout>
   );

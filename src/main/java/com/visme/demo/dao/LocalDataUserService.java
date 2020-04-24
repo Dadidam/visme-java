@@ -18,14 +18,15 @@ public class LocalDataUserService implements UserDao {
     private static List<User> DB = new ArrayList<>();
 
     @Override
-    public int insertUser(UUID id, User user) {
+    public User insertUser(UUID id, User user) {
         // all passwords should be encrypted
         String encodedPassword = CryptHelper.encodePassword(user.getPassword());
 
         // put entry to Database
-        DB.add(new User(id, user.getName(), user.getEmail(), encodedPassword));
+        User userToAdd = new User(id, user.getName(), user.getEmail(), encodedPassword);
+        DB.add(userToAdd);
 
-        return 1;
+        return userToAdd;
     }
 
     @Override

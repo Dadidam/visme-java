@@ -1,0 +1,12 @@
+com\visme\demo\DemoApplication.class
+com\visme\demo\dao\LocalDataUserService.class
+com\visme\demo\service\ProjectService.class
+com\visme\demo\dao\UserDao.class
+com\visme\demo\service\UserService.class
+com\visme\demo\dao\LocalDataProjectService.class
+com\visme\demo\api\UserController.class
+com\visme\demo\model\User.class
+com\visme\demo\model\Project.class
+com\visme\demo\api\ProjectController.class
+com\visme\demo\helpers\CryptHelper.class
+com\visme\demo\dao\ProjectDao.class

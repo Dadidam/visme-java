@@ -1,46 +1,73 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { Component } from "react";
 import { Layout, Menu, Breadcrumb } from "antd";
-import { UserOutlined, HeartTwoTone } from "@ant-design/icons";
-import { logoutUser } from "actions/user";
+import { Link } from "react-router-dom";
+import {
+  UserOutlined,
+  UsergroupAddOutlined,
+  FolderOpenOutlined,
+  HeartTwoTone
+} from "@ant-design/icons";
 import Logo from "containers/Logo";
 
 const { Header, Content, Footer } = Layout;
 
-const MainLayout = ({ children, user, logoutUser }) => (
-  <Layout className="layout">
-    <Header>
-      <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["1"]}>
-        <Menu.Item key="1">Projects</Menu.Item>
-        <Menu.Item key="2" onClick={logoutUser}>
-          Logout
-        </Menu.Item>
-      </Menu>
-    </Header>
-    <Content style={{ padding: "0 50px" }}>
-      <Breadcrumb style={{ margin: "16px 0" }}>
-        <Breadcrumb.Item>
-          <UserOutlined />
-          &nbsp;&nbsp;&nbsp;
-          {user.name}
-        </Breadcrumb.Item>
-        <Breadcrumb.Item>Projects</Breadcrumb.Item>
-      </Breadcrumb>
-      <div className="site-layout-content">{children}</div>
-    </Content>
-    <Footer style={{ textAlign: "center" }}>
-      <Logo />
-      <p>Visme-Tools Demo ©2020 Created by Ilia Vorontcov</p>
-      <p>
-        <HeartTwoTone twoToneColor="#eb2f96" /> powered by React/Redux and Ant
-        Design <HeartTwoTone twoToneColor="#eb2f96" />
-      </p>
-    </Footer>
-  </Layout>
-);
+class MainLayout extends Component {
+  state = {
+    current: "Users"
+  };
 
-function mapStateToProps({ user }) {
-  return { user };
+  handleClick = e => {
+    this.setState({
+      current: e.key
+    });
+  };
+
+  render() {
+    const { current } = this.state;
+
+    return (
+      <Layout className="layout">
+        <Header>
+          <Menu
+            onClick={this.handleClick}
+            theme="dark"
+            mode="horizontal"
+            defaultSelectedKeys={[current]}
+          >
+            <Menu.Item key="Users">
+              <Link to="/">
+                <UsergroupAddOutlined />
+                Users
+              </Link>
+            </Menu.Item>
+            <Menu.Item key="Projects">
+              <Link to="/project/add">
+                <FolderOpenOutlined />
+                Projects
+              </Link>
+            </Menu.Item>
+          </Menu>
+        </Header>
+        <Content style={{ padding: "0 50px" }}>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>
+              <UserOutlined />
+              &nbsp;&nbsp;&nbsp; admin@visme.co
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>{current}</Breadcrumb.Item>
+          </Breadcrumb>
+          <div className="site-layout-content">{this.props.children}</div>
+        </Content>
+        <Footer style={{ textAlign: "center" }}>
+          <Logo />
+          <p>Visme-Tools Demo ©2020 Created by Ilia Vorontcov</p>
+          <p>
+            <HeartTwoTone twoToneColor="#eb2f96" /> powered by React/Redux and
+            Ant Design <HeartTwoTone twoToneColor="#eb2f96" />
+          </p>
+        </Footer>
+      </Layout>
+    );
+  }
 }
-
-export default connect(mapStateToProps, { logoutUser })(MainLayout);
+export default MainLayout;
