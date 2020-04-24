@@ -13,3 +13,4 @@ export const AUTH_USER = "auth_user";
 export const LOGOUT_USER = "logout_user";
 export const SIGNUP_ERROR = "signup_error";
 export const FETCH_USER_LIST = "fetch_user_list";
+export const DELETE_USER = "delete_user";

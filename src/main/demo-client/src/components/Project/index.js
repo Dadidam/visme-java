@@ -1,23 +1,26 @@
 import _ from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { Empty, Badge } from "antd";
-import MainLayout from "containers/MainLayout";
 import ProjectList from "components/Project/ProjectList";
 import AddButton from "components/Project/AddButton";
-import { fetchUserProjects } from "actions/project";
+import { fetchProjectList } from "actions/project";
 
 class ProjectIndex extends Component {
   componentDidMount() {
-    const { user, fetchUserProjects } = this.props;
-    return fetchUserProjects(user.id);
+    return this.props.fetchProjectList();
   }
 
   renderEmptyBox() {
     return (
-      <Empty>
-        <AddButton />
-      </Empty>
+      <Empty
+        description={
+          <span>
+            No added projects. Wanna <Link to="/project/add">add one</Link>?
+          </span>
+        }
+      />
     );
   }
 
@@ -25,7 +28,7 @@ class ProjectIndex extends Component {
     const { list } = this.props.project;
 
     return (
-      <MainLayout>
+      <div>
         <h3>
           Project List&nbsp;<Badge count={list.length}></Badge>
         </h3>
@@ -33,13 +36,13 @@ class ProjectIndex extends Component {
           <AddButton />
         </div>
         {_.isEmpty(list) ? this.renderEmptyBox() : <ProjectList list={list} />}
-      </MainLayout>
+      </div>
     );
   }
 }
 
-function mapStateToProps({ user, project }) {
-  return { user, project };
+function mapStateToProps({ project }) {
+  return { project };
 }
 
-export default connect(mapStateToProps, { fetchUserProjects })(ProjectIndex);
+export default connect(mapStateToProps, { fetchProjectList })(ProjectIndex);

@@ -55,7 +55,7 @@ class MainLayout extends Component {
               </Link>
             </Menu.Item>
             <Menu.Item key="Projects">
-              <Link to="/project/add">
+              <Link to="/projects">
                 <FolderOpenOutlined />
                 Projects
               </Link>

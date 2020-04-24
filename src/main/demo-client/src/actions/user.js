@@ -90,3 +90,21 @@ export const fetchAllUsers = () => async (dispatch) => {
     return Promise.reject(e);
   }
 };
+
+// delete user from server
+export const deleteUser = (userId) => async (dispatch) => {
+  try {
+    const url = `${apiUrl}/user/${userId}`;
+    const response = await restClient.delete(url);
+
+    // remove user from redux storage
+    dispatch({
+      type: userActions.DELETE_USER,
+      payload: userId,
+    });
+
+    return response;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};

@@ -1,5 +1,5 @@
-import axios from "axios";
-import * as userActions from "actions/types";
+import * as actions from "actions/types";
+import restClient from "helpers/restClient";
 
 const apiUrl = "http://localhost:8080/api/v1";
 
@@ -8,7 +8,7 @@ export const addProject = (projectDetails, userId) => async dispatch => {
   try {
     // reset an error
     dispatch({
-      type: userActions.ADD_PROJECT_ERROR,
+      type: actions.ADD_PROJECT_ERROR,
       payload: false
     });
 
@@ -16,12 +16,12 @@ export const addProject = (projectDetails, userId) => async dispatch => {
     const details = { ...projectDetails, userId };
 
     const url = `${apiUrl}/project`;
-    const response = await axios.post(url, details);
+    const response = await restClient.post(url, details);
     const payload = response.data;
 
     // add project to redux storage
     dispatch({
-      type: userActions.ADD_PROJECT,
+      type: actions.ADD_PROJECT,
       payload
     });
 
@@ -29,7 +29,7 @@ export const addProject = (projectDetails, userId) => async dispatch => {
   } catch (e) {
     // display an error at the login form
     dispatch({
-      type: userActions.ADD_PROJECT_ERROR,
+      type: actions.ADD_PROJECT_ERROR,
       payload: true
     });
 
@@ -41,12 +41,31 @@ export const addProject = (projectDetails, userId) => async dispatch => {
 export const fetchUserProjects = userId => async dispatch => {
   try {
     const url = `${apiUrl}/project/user/${userId}`;
-    const response = await axios.get(url);
+    const response = await restClient.get(url);
     const payload = response.data;
 
     // add projects to redux storage
     dispatch({
-      type: userActions.FETCH_USER_PROJECTS,
+      type: actions.FETCH_USER_PROJECTS,
+      payload
+    });
+
+    return response;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+// fetch ALL projects
+export const fetchProjectList = () => async dispatch => {
+  try {
+    const url = `${apiUrl}/project/list`;
+    const response = await restClient.get(url);
+    const payload = response.data;
+
+    // add projects to redux storage
+    dispatch({
+      type: actions.FETCH_USER_PROJECTS,
       payload
     });
 
@@ -60,11 +79,11 @@ export const fetchUserProjects = userId => async dispatch => {
 export const deleteProject = projectId => async dispatch => {
   try {
     const url = `${apiUrl}/project/${projectId}`;
-    const response = await axios.delete(url);
+    const response = await restClient.delete(url);
 
-    // add project to redux storage
+    // remove project from redux storage
     dispatch({
-      type: userActions.DELETE_PROJECT,
+      type: actions.DELETE_PROJECT,
       payload: projectId
     });
 

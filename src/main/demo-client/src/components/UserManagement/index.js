@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Empty, Badge, Skeleton } from "antd";
-import MainLayout from "containers/MainLayout";
 import UserList from "components/UserManagement/UserList";
 import UserAddButton from "components/UserManagement/UserAddButton";
 import { fetchAllUsers } from "actions/user";
@@ -45,13 +44,13 @@ class ProjectIndex extends Component {
 
   render() {
     return (
-      <MainLayout history={this.props.history}>
+      <div>
         <h3>User Management&nbsp;{this.renderBadge()}</h3>
         <div className="btn-padding">
           <UserAddButton />
         </div>
         {this.renderContent()}
-      </MainLayout>
+      </div>
     );
   }
 }

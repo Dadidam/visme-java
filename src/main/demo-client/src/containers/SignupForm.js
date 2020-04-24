@@ -20,10 +20,10 @@ const tailLayout = {
   },
 };
 
-const SignupForm = ({ signupUser, user }) => {
+const SignupForm = ({ signupUser, user, history }) => {
   const onFinish = (values) => {
     console.log("Success:", values);
-    signupUser(values);
+    signupUser(values).then(() => history.push("/"));
   };
 
   const onFinishFailed = (errorInfo) => {
