@@ -1,3 +1,6 @@
+// default
+export const CONNECTION_FAILED = "connection_failed";
+
 // project
 export const ADD_PROJECT = "add_project";
 export const ADD_PROJECT_ERROR = "add_project_error";

@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout, Menu, Breadcrumb, Alert } from "antd";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import {
   UserOutlined,
   UsergroupAddOutlined,
   FolderOpenOutlined,
-  HeartTwoTone
+  HeartTwoTone,
 } from "@ant-design/icons";
 import Logo from "containers/Logo";
 
@@ -13,13 +14,26 @@ const { Header, Content, Footer } = Layout;
 
 class MainLayout extends Component {
   state = {
-    current: "Users"
+    current: "Users",
   };
 
-  handleClick = e => {
+  handleClick = (e) => {
     this.setState({
-      current: e.key
+      current: e.key,
     });
+  };
+
+  renderErrorBanner = () => {
+    if (this.props.app.connectionFailed) {
+      return (
+        <Alert
+          message="Error"
+          description="Connection to the API server failed."
+          type="error"
+          showIcon
+        />
+      );
+    }
   };
 
   render() {
@@ -56,6 +70,7 @@ class MainLayout extends Component {
             </Breadcrumb.Item>
             <Breadcrumb.Item>{current}</Breadcrumb.Item>
           </Breadcrumb>
+          <div>{this.renderErrorBanner()}</div>
           <div className="site-layout-content">{this.props.children}</div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
@@ -70,4 +85,9 @@ class MainLayout extends Component {
     );
   }
 }
-export default MainLayout;
+
+function mapStateToProps({ app }) {
+  return { app };
+}
+
+export default connect(mapStateToProps)(MainLayout);

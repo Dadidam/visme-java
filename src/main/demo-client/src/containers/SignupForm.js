@@ -4,30 +4,29 @@ import { Link } from "react-router-dom";
 import { Form, Input, Button, Space } from "antd";
 import ErrorBanner from "containers/ErrorBanner";
 import { signupUser } from "actions/user";
-import Logo from "./Logo";
 
 const layout = {
   labelCol: {
-    span: 8
+    span: 8,
   },
   wrapperCol: {
-    span: 16
-  }
+    span: 16,
+  },
 };
 const tailLayout = {
   wrapperCol: {
     offset: 8,
-    span: 16
-  }
+    span: 16,
+  },
 };
 
 const SignupForm = ({ signupUser, user }) => {
-  const onFinish = values => {
+  const onFinish = (values) => {
     console.log("Success:", values);
     signupUser(values);
   };
 
-  const onFinishFailed = errorInfo => {
+  const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
@@ -40,12 +39,12 @@ const SignupForm = ({ signupUser, user }) => {
 
   return (
     <div className="signup-form">
-      <Logo />
+      <h1>Add User</h1>
       <Form
         {...layout}
         name="basic"
         initialValues={{
-          remember: true
+          remember: true,
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -57,8 +56,8 @@ const SignupForm = ({ signupUser, user }) => {
           rules={[
             {
               required: true,
-              message: "Please input your full name"
-            }
+              message: "Please input your full name",
+            },
           ]}
         >
           <Input />
@@ -71,8 +70,8 @@ const SignupForm = ({ signupUser, user }) => {
             {
               required: true,
               type: "email",
-              message: "Please input correct email"
-            }
+              message: "Please input correct email",
+            },
           ]}
         >
           <Input />
@@ -84,8 +83,8 @@ const SignupForm = ({ signupUser, user }) => {
           rules={[
             {
               required: true,
-              message: "Please input your password"
-            }
+              message: "Please input your password",
+            },
           ]}
         >
           <Input.Password />
@@ -95,7 +94,7 @@ const SignupForm = ({ signupUser, user }) => {
           <div>
             <Space>
               <Button type="link">
-                <Link to="/">&larr; Back to Home</Link>
+                <Link to="/">&larr; Back to User List</Link>
               </Button>
               <Button type="primary" htmlType="submit">
                 Register
