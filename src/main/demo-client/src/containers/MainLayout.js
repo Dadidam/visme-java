@@ -31,6 +31,7 @@ class MainLayout extends Component {
           description="Connection to the API server failed."
           type="error"
           showIcon
+          style={{ marginBottom: 20 }}
         />
       );
     }
