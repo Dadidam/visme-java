@@ -4,7 +4,7 @@ import restClient from "helpers/restClient";
 const apiUrl = "http://localhost:8080/api/v1";
 
 // create new project via API
-export const addProject = (projectDetails, userId) => async dispatch => {
+export const addProject = projectDetails => async dispatch => {
   try {
     // reset an error
     dispatch({
@@ -12,11 +12,8 @@ export const addProject = (projectDetails, userId) => async dispatch => {
       payload: false
     });
 
-    // API requests also needs a userId to set a project owner
-    const details = { ...projectDetails, userId };
-
     const url = `${apiUrl}/project`;
-    const response = await restClient.post(url, details);
+    const response = await restClient.post(url, projectDetails);
     const payload = response.data;
 
     // add project to redux storage
@@ -65,7 +62,7 @@ export const fetchProjectList = () => async dispatch => {
 
     // add projects to redux storage
     dispatch({
-      type: actions.FETCH_USER_PROJECTS,
+      type: actions.FETCH_PROJECT_LIST,
       payload
     });
 
