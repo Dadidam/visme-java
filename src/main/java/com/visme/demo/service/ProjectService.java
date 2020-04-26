@@ -40,7 +40,7 @@ public class ProjectService {
         return projectDao.removeProjectById(id);
     }
 
-    public int updateProjectInfo(UUID id, Project updatedInfo) {
+    public Project updateProjectInfo(UUID id, Project updatedInfo) {
         return projectDao.updateProjectById(id, updatedInfo);
     }
 

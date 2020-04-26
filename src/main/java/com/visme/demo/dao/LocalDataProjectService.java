@@ -1,9 +1,11 @@
 package com.visme.demo.dao;
 
 import com.visme.demo.model.Project;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +19,7 @@ public class LocalDataProjectService implements ProjectDao {
 
     @Override
     public Project insertProject(UUID id, Project project) {
-        Project projectToAdd = new Project(id, project.getUserId(), project.getTitle(), project.isFavorite(), LocalDate.now(), LocalDate.now());
+        Project projectToAdd = new Project(id, project.getUserId(), project.getTitle(), project.getType(), LocalDateTime.now(), LocalDateTime.now());
         DB.add(projectToAdd);
         return projectToAdd;
     }
@@ -48,16 +50,17 @@ public class LocalDataProjectService implements ProjectDao {
     }
 
     @Override
-    public int updateProjectById(UUID id, Project projectToBeUpdated) {
+    public Project updateProjectById(UUID id, Project projectToBeUpdated) {
         return selectProjectById(id)
                 .map(project -> {
                     int projectIndex = DB.indexOf(project);
                     if (projectIndex >= 0) {
-                        DB.set(projectIndex, new Project(id, id, projectToBeUpdated.getTitle(), projectToBeUpdated.isFavorite(), projectToBeUpdated.getCreationDate(), LocalDate.now()));
-                        return 1;
+                        Project updatedProject = new Project(id, id, projectToBeUpdated.getTitle(), projectToBeUpdated.getType(), projectToBeUpdated.getCreationDate(), LocalDateTime.now());
+                        DB.set(projectIndex, updatedProject);
+                        return updatedProject;
                     }
-                    return 0;
-                }).orElse(0);
+                        return null;
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
     @Override
@@ -69,7 +72,7 @@ public class LocalDataProjectService implements ProjectDao {
                 .map(project -> {
                     int projectIndex = DB.indexOf(project);
                     if (projectIndex >= 0) {
-                        DB.set(projectIndex, new Project(id, id, projectToBeUpdated.getTitle(), !projectToBeUpdated.isFavorite(), projectToBeUpdated.getCreationDate(), projectToBeUpdated.getModificationDate()));
+                        DB.set(projectIndex, new Project(id, id, projectToBeUpdated.getTitle(), !projectToBeUpdated.getType(), projectToBeUpdated.getCreationDate(), projectToBeUpdated.getModificationDate()));
                         return 1;
                     }
                     return 0;

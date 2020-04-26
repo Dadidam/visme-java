@@ -24,5 +24,5 @@ public interface ProjectDao {
 
     int toggleProjectType(UUID id, Project project);
 
-    int updateProjectById(UUID id, Project project);
+    Project updateProjectById(UUID id, Project project);
 }
