@@ -23,7 +23,12 @@ public class User {
     @Size(min=6, message = "Password should have at least 6 characters")
     private final String password;
 
-    public User(@JsonProperty("id") UUID id, @JsonProperty("name") String name, @JsonProperty("email") String email, @JsonProperty("password") String password) {
+    public User(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("name") String name,
+            @JsonProperty("email") String email,
+            @JsonProperty("password") String password
+    ) {
         this.id = id;
         this.name = name;
         this.email = email;

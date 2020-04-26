@@ -1,12 +1,12 @@
 package com.visme.demo.dao;
 
+import com.visme.demo.exception.ApiRequestException;
+import com.visme.demo.exception.EntityNotFoundException;
 import com.visme.demo.helpers.CryptHelper;
 import com.visme.demo.model.Credentials;
 import com.visme.demo.model.User;
-import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.stereotype.Repository;
 
-import javax.validation.constraints.Email;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +19,17 @@ public class LocalDataUserService implements UserDao {
 
     @Override
     public User insertUser(UUID id, User user) {
+
+        try {
+            User existedUser = selectUserByEmail(user.getEmail());
+
+            if (doesUserExist(existedUser)) {
+                throw new ApiRequestException("User with passed Email address already exists");
+            }
+        } catch (EntityNotFoundException e) {
+            // okay, email is unique, moving forward
+        }
+
         // all passwords should be encrypted
         String encodedPassword = CryptHelper.encodePassword(user.getPassword());
 
@@ -26,7 +37,9 @@ public class LocalDataUserService implements UserDao {
         User userToAdd = new User(id, user.getName(), user.getEmail(), encodedPassword);
         DB.add(userToAdd);
 
-        return userToAdd;
+        if (doesUserExist(userToAdd)) {
+            return userToAdd;
+        } else throw new EntityNotFoundException("Can't add a new user to the Database");
     }
 
     @Override
@@ -35,45 +48,51 @@ public class LocalDataUserService implements UserDao {
     }
 
     @Override
-    public Optional<User> selectUserById(UUID id) {
+    public User selectUserById(UUID id) {
         return DB.stream()
                 .filter(user -> user.getId().equals(id))
-                .findFirst();
+                .findFirst().orElseThrow(() -> new EntityNotFoundException("User with passed ID not found"));
     }
 
     @Override
-    public int removeUserById(UUID id) {
-        Optional<User> possibleUser = selectUserById(id);
-        if (possibleUser.isPresent()) {
-            DB.remove(possibleUser.get());
-            return 1;
+    public void removeUserById(UUID id) {
+        User possibleUser = selectUserById(id);
+        DB.remove(possibleUser);
+
+        // check if the user still exists in the DB
+        if (doesUserExist(possibleUser)) {
+            throw new EntityNotFoundException("Can't delete the user from DB");
         }
-        return 0;
     }
 
     @Override
-    public int updateUserById(UUID id, User userToBeUpdated) {
-        return selectUserById(id)
-                .map(user -> {
-                    int userIndex = DB.indexOf(user);
-                    if (userIndex >= 0) {
-                        // encode password first
-                        String encodedPassword = CryptHelper.encodePassword(userToBeUpdated.getPassword());
+    public User updateUserById(UUID id, User userToBeUpdated) {
+        User possibleUser = selectUserById(id);
 
-                        // now we can update selected entry
-                        DB.set(userIndex, new User(id, userToBeUpdated.getName(), userToBeUpdated.getEmail(), encodedPassword));
+        if (doesUserExist(possibleUser)) {
+            // get user's index
+            int userIndex = DB.indexOf(possibleUser);
 
-                        return 1;
-                    }
-                    return 0;
-                }).orElse(0);
+            // encode password first
+            String encodedPassword = CryptHelper.encodePassword(userToBeUpdated.getPassword());
+
+            // create new User model
+            User updatedUserModel = new User(id, userToBeUpdated.getName(), userToBeUpdated.getEmail(), encodedPassword);
+
+            // now we can update selected entry
+            DB.set(userIndex, updatedUserModel);
+
+            return updatedUserModel;
+        }
+
+        return null;
     }
 
     @Override
-    public Optional<User> selectUserByEmail(String email) {
+    public User selectUserByEmail(String email) {
         return DB.stream()
                 .filter(user -> user.getEmail().equals(email))
-                .findFirst();
+                .findFirst().orElseThrow(() -> new EntityNotFoundException("User with passed email not found"));
     }
 
     @Override
@@ -83,7 +102,7 @@ public class LocalDataUserService implements UserDao {
                 .filter(dbUser -> dbUser.getEmail().equals(credentials.getEmail()))
                 .findFirst();
 
-         if (possibleUser.isPresent()) {
+        if (possibleUser.isPresent()) {
             User realUser = possibleUser.get();
             // check if passed password matches to its hash
             Boolean passEquals = CryptHelper.isMatched(credentials.getPassword(), realUser.getPassword());
@@ -95,8 +114,15 @@ public class LocalDataUserService implements UserDao {
                 System.out.println("Passwords don't macth");
                 return null;
             }
-        };
+        }
+        ;
         System.out.println("User with passed email doesn't exist");
         return null;
+    }
+
+    @Override
+    public Boolean doesUserExist(User user) {
+        int userIndex = DB.indexOf(user);
+        return userIndex >= 0;
     }
 }

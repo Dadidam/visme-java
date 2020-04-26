@@ -17,13 +17,15 @@ public interface UserDao {
 
     List<User> selectAllUsers();
 
-    Optional<User> selectUserById(UUID id);
+    User selectUserById(UUID id);
 
-    Optional<User> selectUserByEmail(String email);
+    User selectUserByEmail(String email);
 
-    int removeUserById(UUID id);
+    void removeUserById(UUID id);
 
-    int updateUserById(UUID id, User user);
+    User updateUserById(UUID id, User user);
 
     Optional<User> checkUserCredentials(Credentials credentials);
+
+    Boolean doesUserExist(User user);
 }

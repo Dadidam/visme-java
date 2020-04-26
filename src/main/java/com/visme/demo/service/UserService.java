@@ -29,23 +29,25 @@ public class UserService {
         return userDao.selectAllUsers();
     }
 
-    public Optional<User> getUserById(UUID id) {
+    public User getUserById(UUID id) {
         return userDao.selectUserById(id);
     }
 
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userDao.selectUserByEmail(email);
     }
 
-    public int deleteUser(UUID id) {
-        return userDao.removeUserById(id);
+    public void deleteUser(UUID id) {
+        userDao.removeUserById(id);
     }
 
-    public int updateUserInfo(UUID id, User updatedInfo) {
+    public User updateUserInfo(UUID id, User updatedInfo) {
         return userDao.updateUserById(id, updatedInfo);
     }
 
     public Optional<User> authUser(Credentials credentials) {
         return userDao.checkUserCredentials(credentials);
     }
+
+    public Boolean doesUserExist(User user) { return userDao.doesUserExist(user); }
 }

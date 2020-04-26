@@ -2,6 +2,7 @@ package com.visme.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
 public class Project {
     private final UUID id;
 
-    @NotBlank(message = "User id has not been provided")
+    @NotNull(message = "User id has not been provided")
     private final UUID userId;
 
     @NotBlank

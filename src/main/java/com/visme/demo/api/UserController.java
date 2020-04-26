@@ -34,7 +34,7 @@ public class UserController {
 
     @GetMapping(path = "{id}")
     public User getUserById(@PathVariable("id") UUID id) {
-        return userService.getUserById(id).orElse(null);
+        return userService.getUserById(id);
     }
 
     @DeleteMapping(path = "{id}")
@@ -43,8 +43,8 @@ public class UserController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateUserInfo(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userInfoToUpdate) {
-        userService.updateUserInfo(id, userInfoToUpdate);
+    public User updateUserInfo(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody User userInfoToUpdate) {
+        return userService.updateUserInfo(id, userInfoToUpdate);
     }
 
     @PostMapping(path = "/auth")
