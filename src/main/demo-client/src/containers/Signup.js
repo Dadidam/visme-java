@@ -83,7 +83,8 @@ const SignupForm = ({ signupUser, user, history }) => {
           rules={[
             {
               required: true,
-              message: "Please input your password",
+              min: 6,
+              message: "Please input your password (must have at least 6 characters)",
             },
           ]}
         >

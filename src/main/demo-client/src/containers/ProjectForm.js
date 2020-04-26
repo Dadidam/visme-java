@@ -63,7 +63,7 @@ const ProjectForm = ({ addProject, project, user, history }) => {
           <Input />
         </Form.Item>
 
-        <Form.Item {...tailLayout} name="isFavorite" valuePropName="checked">
+        <Form.Item {...tailLayout} name="type" valuePropName="checked">
           <Checkbox>Add this Project to your Favorite list</Checkbox>
         </Form.Item>
 

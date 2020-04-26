@@ -1,4 +1,5 @@
 import { connect } from "react-redux";
+import formatDate from "helpers/DateHelper";
 import React, { useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Tag, Button } from "antd";
 import { deleteProject } from "actions/project";
@@ -20,13 +21,13 @@ const EditableCell = ({
         <Form.Item
           name={dataIndex}
           style={{
-            margin: 0
+            margin: 0,
           }}
           rules={[
             {
               required: true,
-              message: `Please Input ${title}!`
-            }
+              message: `Please Input ${title}!`,
+            },
           ]}
         >
           {inputNode}
@@ -43,14 +44,14 @@ const EditableTable = ({ list, deleteProject }) => {
   const [data, setData] = useState(list);
   const [editingKey, setEditingKey] = useState("");
 
-  const isEditing = record => record.id === editingKey;
+  const isEditing = (record) => record.id === editingKey;
 
-  const edit = record => {
+  const edit = (record) => {
     form.setFieldsValue({ ...record });
     setEditingKey(record.id);
   };
 
-  const onDelete = record => {
+  const onDelete = (record) => {
     deleteProject(record.id);
   };
 
@@ -58,11 +59,11 @@ const EditableTable = ({ list, deleteProject }) => {
     setEditingKey("");
   };
 
-  const save = async key => {
+  const save = async (key) => {
     try {
       const row = await form.validateFields();
       const newData = [...data];
-      const index = newData.findIndex(item => key === item.id);
+      const index = newData.findIndex((item) => key === item.id);
 
       if (index > -1) {
         const item = newData[index];
@@ -86,26 +87,32 @@ const EditableTable = ({ list, deleteProject }) => {
       width: "40%",
       editable: true,
       render: (_, record) => {
-        return record.favorite ? (
+        return record.type ? (
           <span>
             {record.title} <Tag color="#A4BCD4">favorite</Tag>
           </span>
         ) : (
           record.title
         );
-      }
+      },
     },
     {
       title: "Added",
       dataIndex: "creationDate",
       width: "15%",
-      editable: false
+      editable: false,
+      render: (_, record) => {
+        return formatDate(record.creationDate);
+      },
     },
     {
       title: "Modified",
       dataIndex: "modificationDate",
       width: "15%",
-      editable: false
+      editable: false,
+      render: (_, record) => {
+        return formatDate(record.modificationDate);
+      },
     },
     {
       title: "operation",
@@ -118,7 +125,7 @@ const EditableTable = ({ list, deleteProject }) => {
               href="javascript:;"
               onClick={() => save(record.id)}
               style={{
-                marginRight: 8
+                marginRight: 8,
               }}
             >
               Save
@@ -146,23 +153,23 @@ const EditableTable = ({ list, deleteProject }) => {
             </Popconfirm>
           </div>
         );
-      }
-    }
+      },
+    },
   ];
-  const mergedColumns = columns.map(col => {
+  const mergedColumns = columns.map((col) => {
     if (!col.editable) {
       return col;
     }
 
     return {
       ...col,
-      onCell: record => ({
+      onCell: (record) => ({
         record,
         inputType: col.dataIndex === "age" ? "number" : "text",
         dataIndex: col.dataIndex,
         title: col.title,
-        editing: isEditing(record)
-      })
+        editing: isEditing(record),
+      }),
     };
   });
   return (
@@ -170,8 +177,8 @@ const EditableTable = ({ list, deleteProject }) => {
       <Table
         components={{
           body: {
-            cell: EditableCell
-          }
+            cell: EditableCell,
+          },
         }}
         bordered
         dataSource={list}

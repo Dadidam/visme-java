@@ -14,6 +14,7 @@ export const addProject = projectDetails => async dispatch => {
 
     const url = `${apiUrl}/project`;
     const response = await restClient.post(url, projectDetails);
+    debugger
     const payload = response.data;
 
     // add project to redux storage
@@ -58,7 +59,7 @@ export const fetchProjectList = () => async dispatch => {
   try {
     const url = `${apiUrl}/project/list`;
     const response = await restClient.get(url);
-    const payload = response.data;
+    const payload = response.data.data;
 
     // add projects to redux storage
     dispatch({
