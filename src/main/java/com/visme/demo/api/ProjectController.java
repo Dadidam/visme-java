@@ -1,12 +1,16 @@
 package com.visme.demo.api;
 
+import com.visme.demo.model.Pager;
 import com.visme.demo.model.Project;
+import com.visme.demo.response.ResponseTransfer;
 import com.visme.demo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,12 +37,24 @@ public class ProjectController {
     }
 
     @GetMapping(path = "/list")
-    public List<Project> fetchProjectList(
+    public ResponseTransfer fetchProjectList(
             @RequestParam(name = "type", required = false) Boolean type,
             @RequestParam(name = "start", required = false, defaultValue = "0") int start,
             @RequestParam(name = "size", required = false, defaultValue = "3") int size
     ) {
-        return projectService.fetchProjectList(type, start, size);
+        List<Project> projectList = projectService.fetchProjectList(type, start, size);
+
+        // DIRTY HACK, don't know hot to get rid of it ¯\_(ツ)_/¯
+        // need it for pager total amount
+        List<Project> allEntries = projectService.fetchProjectList();
+
+        Pager pager = new Pager(start, size, allEntries.size());
+
+        return new ResponseTransfer(
+                HttpStatus.OK,
+                new ArrayList<>(projectList),
+                pager
+        );
     }
 
     @GetMapping(path = "{id}")

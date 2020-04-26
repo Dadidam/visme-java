@@ -3,7 +3,6 @@ package com.visme.demo.dao;
 import com.visme.demo.model.Project;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface ProjectDao {
@@ -17,6 +16,8 @@ public interface ProjectDao {
     List<Project> selectAllUserProjects(UUID userId);
 
     List<Project> selectAllProjects(Boolean type, int start, int size);
+
+    List<Project> selectAllProjects();
 
     Project selectProjectById(UUID id);
 

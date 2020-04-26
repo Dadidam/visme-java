@@ -1,19 +1,12 @@
 package com.visme.demo.dao;
 
-import com.visme.demo.exception.ApiRequestException;
 import com.visme.demo.exception.EntityNotFoundException;
-import com.visme.demo.exception.NotFoundException;
-import com.visme.demo.helpers.CryptHelper;
 import com.visme.demo.model.Project;
-import com.visme.demo.model.User;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -68,6 +61,11 @@ public class LocalDataProjectService implements ProjectDao {
         }
 
         return projectList.stream().skip(start).limit(size).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Project> selectAllProjects() {
+        return new ArrayList<>(DB);
     }
 
     @Override

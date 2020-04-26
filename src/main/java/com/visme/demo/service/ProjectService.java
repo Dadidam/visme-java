@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -38,6 +37,10 @@ public class ProjectService {
 
     public List<Project> fetchProjectList(Boolean type, int start, int size) {
         return projectDao.selectAllProjects(type, start, size);
+    }
+
+    public List<Project> fetchProjectList() {
+        return projectDao.selectAllProjects();
     }
 
     public Project getProjectById(UUID id) {
