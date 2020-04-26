@@ -1,5 +1,6 @@
 package com.visme.demo.api;
 
+import com.visme.demo.exception.ApiRequestException;
 import com.visme.demo.model.Project;
 import com.visme.demo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,9 @@ public class ProjectController {
 
     @GetMapping(path = "/list")
     public List<Project> fetchProjectList() {
-        return projectService.fetchProjectList();
+        throw new ApiRequestException("Custom exception message");
+//        throw new IllegalStateException("Whoops, can't get all projects");
+//        return projectService.fetchProjectList().orElseThrow(() -> new ApiRequestException("Custom exception message"));
     }
 
     @GetMapping(path = "{id}")
