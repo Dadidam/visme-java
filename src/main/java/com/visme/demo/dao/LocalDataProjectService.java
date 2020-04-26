@@ -50,8 +50,24 @@ public class LocalDataProjectService implements ProjectDao {
     }
 
     @Override
-    public List<Project> selectAllProjects() {
-        return new ArrayList<>(DB);
+    public List<Project> selectAllProjects(Boolean type, int start, int size) {
+        List<Project> projectList = new ArrayList<>(DB);
+
+        // if `type` passed as query param (has Boolean type) - need to filter by type
+        if (type != null) {
+            projectList = projectList
+                    .stream()
+                    .filter(project -> project.getType().equals(type))
+                    .collect(Collectors.toList());
+        }
+
+        // check if the total amount of filtered data more or equal to pager size
+        if (projectList.size() <= size) {
+            // nothing to paginate - return "as-is"
+            return projectList;
+        }
+
+        return projectList.stream().skip(start).limit(size).collect(Collectors.toList());
     }
 
     @Override

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("api/v1/project")
@@ -34,8 +33,12 @@ public class ProjectController {
     }
 
     @GetMapping(path = "/list")
-    public List<Project> fetchProjectList() {
-        return projectService.fetchProjectList();
+    public List<Project> fetchProjectList(
+            @RequestParam(name = "type", required = false) Boolean type,
+            @RequestParam(name = "start", required = false, defaultValue = "0") int start,
+            @RequestParam(name = "size", required = false, defaultValue = "3") int size
+    ) {
+        return projectService.fetchProjectList(type, start, size);
     }
 
     @GetMapping(path = "{id}")

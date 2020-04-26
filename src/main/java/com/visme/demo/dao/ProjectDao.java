@@ -16,7 +16,7 @@ public interface ProjectDao {
 
     List<Project> selectAllUserProjects(UUID userId);
 
-    List<Project> selectAllProjects();
+    List<Project> selectAllProjects(Boolean type, int start, int size);
 
     Project selectProjectById(UUID id);
 
