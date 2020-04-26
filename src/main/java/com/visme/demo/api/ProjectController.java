@@ -1,16 +1,14 @@
 package com.visme.demo.api;
 
-import com.visme.demo.exception.ApiRequestException;
 import com.visme.demo.model.Project;
 import com.visme.demo.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequestMapping("api/v1/project")
@@ -37,15 +35,12 @@ public class ProjectController {
 
     @GetMapping(path = "/list")
     public List<Project> fetchProjectList() {
-        throw new ApiRequestException("Custom exception message");
-//        throw new IllegalStateException("Whoops, can't get all projects");
-//        return projectService.fetchProjectList().orElseThrow(() -> new ApiRequestException("Custom exception message"));
+        return projectService.fetchProjectList();
     }
 
     @GetMapping(path = "{id}")
     public Project getProjectById(@PathVariable("id") UUID id) {
-        return projectService.getProjectById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        return Response<Project>
+        return projectService.getProjectById(id);
     }
 
     @DeleteMapping(path = "{id}")
@@ -54,7 +49,12 @@ public class ProjectController {
     }
 
     @PutMapping(path = "{id}")
-    public void updateProjectInfo(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody Project projectInfo) {
-        projectService.updateProjectInfo(id, projectInfo);
+    public Project updateProjectInfo(@PathVariable("id") UUID id, @Valid @NonNull @RequestBody Project projectInfo) {
+        return projectService.updateProjectInfo(id, projectInfo);
+    }
+
+    @GetMapping(path = "{id}/toggle")
+    public Project toggleProjectType(@PathVariable("id") UUID id) {
+        return projectService.toggleProjectType(id);
     }
 }

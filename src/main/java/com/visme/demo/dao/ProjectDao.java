@@ -18,11 +18,13 @@ public interface ProjectDao {
 
     List<Project> selectAllProjects();
 
-    Optional<Project> selectProjectById(UUID id);
+    Project selectProjectById(UUID id);
 
-    int removeProjectById(UUID id);
+    void removeProjectById(UUID id);
 
-    int toggleProjectType(UUID id, Project project);
+    Project toggleProjectType(UUID id);
 
     Project updateProjectById(UUID id, Project project);
+
+    Boolean doesProjectExist(Project project);
 }

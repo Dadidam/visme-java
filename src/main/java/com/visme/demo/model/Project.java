@@ -1,6 +1,8 @@
 package com.visme.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jdk.jfr.BooleanFlag;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
