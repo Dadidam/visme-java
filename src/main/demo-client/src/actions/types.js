@@ -5,6 +5,7 @@ export const CONNECTION_FAILED = "connection_failed";
 export const ADD_PROJECT = "add_project";
 export const ADD_PROJECT_ERROR = "add_project_error";
 export const FETCH_USER_PROJECTS = "fetch_user_projects";
+export const FETCH_PROJECT_LIST = "fetch_project_list";
 export const DELETE_PROJECT = "delete_project";
 
 // user

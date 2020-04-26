@@ -1,10 +1,9 @@
 package com.visme.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Project {
@@ -19,11 +18,18 @@ public class Project {
 
     private final Boolean type;
 
-    private final LocalDate created_at;
+    private final LocalDateTime created_at;
 
-    private final LocalDate modified_at;
+    private final LocalDateTime modified_at;
 
-    public Project(@JsonProperty("id") UUID id, @JsonProperty("userId") UUID userId, @JsonProperty("title") String title, @JsonProperty("type") Boolean type, @JsonProperty("created_at") LocalDate created_at, @JsonProperty("modified_at") LocalDate modified_at) {
+    public Project(
+            @JsonProperty("id") UUID id,
+            @JsonProperty("userId") UUID userId,
+            @JsonProperty("title") String title,
+            @JsonProperty("type") Boolean type,
+            @JsonProperty("created_at") LocalDateTime created_at,
+            @JsonProperty("modified_at") LocalDateTime modified_at
+    ) {
         this.id = id;
         this.userId = userId;
         this.title = title;
@@ -48,11 +54,11 @@ public class Project {
         return type;
     }
 
-    public LocalDate getCreationDate() {
+    public LocalDateTime getCreationDate() {
         return created_at;
     }
 
-    public LocalDate getModificationDate() {
+    public LocalDateTime getModificationDate() {
         return modified_at;
     }
 }
