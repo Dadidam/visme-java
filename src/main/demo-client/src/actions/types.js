@@ -11,6 +11,7 @@ export const ADD_PROJECT_ERROR = "add_project_error";
 export const FETCH_USER_PROJECTS = "fetch_user_projects";
 export const FETCH_PROJECT_LIST = "fetch_project_list";
 export const DELETE_PROJECT = "delete_project";
+export const TOGGLE_PROJECT_TYPE = "toggle_project_type";
 
 // user
 export const AUTH_ERROR = "auth_error";

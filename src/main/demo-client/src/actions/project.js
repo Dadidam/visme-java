@@ -62,7 +62,7 @@ export const fetchProjectList = (start, size, type) => async (dispatch) => {
     if (typeof type === "boolean") {
       url += `&type=${type}`;
     }
-    
+
     const response = await restClient.get(url);
 
     const { data, pagination } = response.data;
@@ -92,6 +92,24 @@ export const deleteProject = (projectId) => async (dispatch) => {
     // remove project from redux storage
     dispatch({
       type: actions.DELETE_PROJECT,
+      payload: projectId,
+    });
+
+    return response;
+  } catch (e) {
+    return Promise.reject(e);
+  }
+};
+
+// toggle project type
+export const toggleProjectType = (projectId) => async (dispatch) => {
+  try {
+    const url = `${apiUrl}/project/${projectId}/toggle`;
+    const response = await restClient.get(url);
+
+    // remove project from redux storage
+    dispatch({
+      type: actions.TOGGLE_PROJECT_TYPE,
       payload: projectId,
     });
 

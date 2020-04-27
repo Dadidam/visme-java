@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import formatDate from "helpers/DateHelper";
 import React, { useState } from "react";
 import { Table, Input, InputNumber, Popconfirm, Form, Tag, Button } from "antd";
-import { deleteProject } from "actions/project";
+import { deleteProject, toggleProjectType } from "actions/project";
 
 const EditableCell = ({
   editing,
@@ -39,7 +39,7 @@ const EditableCell = ({
   );
 };
 
-const EditableTable = ({ list, deleteProject }) => {
+const EditableTable = ({ list, deleteProject, toggleProjectType }) => {
   const [form] = Form.useForm();
   const [data, setData] = useState(list);
   const [editingKey, setEditingKey] = useState("");
@@ -57,6 +57,10 @@ const EditableTable = ({ list, deleteProject }) => {
 
   const cancel = () => {
     setEditingKey("");
+  };
+
+  const toggle = (record) => {
+    toggleProjectType(record.id);
   };
 
   const save = async (key) => {
@@ -84,7 +88,7 @@ const EditableTable = ({ list, deleteProject }) => {
     {
       title: "Title",
       dataIndex: "title",
-      width: "40%",
+      width: "30%",
       editable: true,
       render: (_, record) => {
         return record.type ? (
@@ -153,6 +157,9 @@ const EditableTable = ({ list, deleteProject }) => {
                 Delete Project
               </Button>
             </Popconfirm>
+            <Button type="link" warning onClick={() => toggle(record)}>
+              {record.type ? "Remove from Favorite" : "Add to Favorite"}
+            </Button>
           </div>
         );
       },
@@ -196,4 +203,6 @@ function mapStateToProps({ project }) {
   return { project };
 }
 
-export default connect(mapStateToProps, { deleteProject })(EditableTable);
+export default connect(mapStateToProps, { deleteProject, toggleProjectType })(
+  EditableTable
+);

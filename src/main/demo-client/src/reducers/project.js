@@ -1,6 +1,15 @@
 import _ from "lodash";
 import * as actions from "actions/types";
 
+const toggleType = (action, state) => {
+  const projectId = action.payload;
+  const projectEntry = _.find(state.list, { id: projectId });
+
+  projectEntry.type = !projectEntry.type;
+
+  return { ...state };
+};
+
 export default function (state = { current: null, list: [] }, action) {
   switch (action.type) {
     case actions.ADD_PROJECT:
@@ -18,6 +27,8 @@ export default function (state = { current: null, list: [] }, action) {
         (project) => project.id !== deletedId
       );
       return { ...state, list: filteredList };
+    case actions.TOGGLE_PROJECT_TYPE:
+      return toggleType(action, state);
     default:
       return state;
   }

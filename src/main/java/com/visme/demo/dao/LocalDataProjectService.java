@@ -127,7 +127,13 @@ public class LocalDataProjectService implements ProjectDao {
                 projectToUpdate.getCreationDate(),
                 projectToUpdate.getModificationDate());
 
-        return updateProjectById(id, updatedProject);
+        // get project index
+        int projectIndex = DB.indexOf(projectToUpdate);
+
+        // now we can update selected entry
+        DB.set(projectIndex, updatedProject);
+
+        return updatedProject;
     }
 
     @Override
