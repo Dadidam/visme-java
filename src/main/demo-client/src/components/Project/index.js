@@ -5,11 +5,15 @@ import { Link } from "react-router-dom";
 import { Empty, Badge } from "antd";
 import ProjectList from "components/Project/ProjectList";
 import AddButton from "components/Project/AddButton";
+import ProjectPager from "components/Project/ProjectPager";
 import { fetchProjectList } from "actions/project";
 
 class ProjectIndex extends Component {
   componentDidMount() {
-    return this.props.fetchProjectList();
+    const { app, fetchProjectList } = this.props;
+    const { start, size } = app.projectPager;
+
+    return fetchProjectList(start, size);
   }
 
   renderEmptyBox() {
@@ -24,25 +28,43 @@ class ProjectIndex extends Component {
     );
   }
 
+  renderList(list) {
+    return (
+      <div>
+        <ProjectList list={list} />
+        <ProjectPager />
+      </div>
+    );
+  }
+
+  renderBadge = () => {
+    const { project } = this.props;
+
+    if (!project || !project.pagination) return null;
+
+    return <Badge count={project.pagination.total} />;
+  };
+
   render() {
     const { list } = this.props.project;
 
     return (
       <div>
         <h3>
-          Project List&nbsp;<Badge count={list.length}></Badge>
+          Project List&nbsp;
+          {this.renderBadge()}
         </h3>
         <div className="btn-padding">
           <AddButton />
         </div>
-        {_.isEmpty(list) ? this.renderEmptyBox() : <ProjectList list={list} />}
+        {_.isEmpty(list) ? this.renderEmptyBox() : this.renderList(list)}
       </div>
     );
   }
 }
 
-function mapStateToProps({ project }) {
-  return { project };
+function mapStateToProps({ app, project }) {
+  return { app, project };
 }
 
 export default connect(mapStateToProps, { fetchProjectList })(ProjectIndex);

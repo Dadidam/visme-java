@@ -4,23 +4,23 @@ import restClient from "helpers/restClient";
 const apiUrl = "http://localhost:8080/api/v1";
 
 // create new project via API
-export const addProject = projectDetails => async dispatch => {
+export const addProject = (projectDetails) => async (dispatch) => {
   try {
     // reset an error
     dispatch({
       type: actions.ADD_PROJECT_ERROR,
-      payload: false
+      payload: false,
     });
 
     const url = `${apiUrl}/project`;
     const response = await restClient.post(url, projectDetails);
-    debugger
+    debugger;
     const payload = response.data;
 
     // add project to redux storage
     dispatch({
       type: actions.ADD_PROJECT,
-      payload
+      payload,
     });
 
     return response;
@@ -28,7 +28,7 @@ export const addProject = projectDetails => async dispatch => {
     // display an error at the login form
     dispatch({
       type: actions.ADD_PROJECT_ERROR,
-      payload: true
+      payload: true,
     });
 
     return Promise.reject(e);
@@ -36,7 +36,7 @@ export const addProject = projectDetails => async dispatch => {
 };
 
 // fetch user's project list
-export const fetchUserProjects = userId => async dispatch => {
+export const fetchUserProjects = (userId) => async (dispatch) => {
   try {
     const url = `${apiUrl}/project/user/${userId}`;
     const response = await restClient.get(url);
@@ -45,7 +45,7 @@ export const fetchUserProjects = userId => async dispatch => {
     // add projects to redux storage
     dispatch({
       type: actions.FETCH_USER_PROJECTS,
-      payload
+      payload,
     });
 
     return response;
@@ -55,16 +55,21 @@ export const fetchUserProjects = userId => async dispatch => {
 };
 
 // fetch ALL projects
-export const fetchProjectList = () => async dispatch => {
+export const fetchProjectList = (start, size) => async (dispatch) => {
   try {
-    const url = `${apiUrl}/project/list`;
+    const url = `${apiUrl}/project/list?start=${start}&size=${size}`;
     const response = await restClient.get(url);
-    const payload = response.data.data;
+
+    const { data, pagination } = response.data;
+    const payload = {
+      list: data,
+      pagination,
+    };
 
     // add projects to redux storage
     dispatch({
       type: actions.FETCH_PROJECT_LIST,
-      payload
+      payload,
     });
 
     return response;
@@ -74,7 +79,7 @@ export const fetchProjectList = () => async dispatch => {
 };
 
 // delete project from server
-export const deleteProject = projectId => async dispatch => {
+export const deleteProject = (projectId) => async (dispatch) => {
   try {
     const url = `${apiUrl}/project/${projectId}`;
     const response = await restClient.delete(url);
@@ -82,7 +87,7 @@ export const deleteProject = projectId => async dispatch => {
     // remove project from redux storage
     dispatch({
       type: actions.DELETE_PROJECT,
-      payload: projectId
+      payload: projectId,
     });
 
     return response;

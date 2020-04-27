@@ -120,20 +120,22 @@ const EditableTable = ({ list, deleteProject }) => {
       render: (_, record) => {
         const editable = isEditing(record);
         return editable ? (
-          <span>
-            <a
-              href="javascript:;"
+          <div>
+            <Button
+              type="link"
               onClick={() => save(record.id)}
               style={{
                 marginRight: 8,
               }}
             >
               Save
-            </a>
+            </Button>
             <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>Cancel</a>
+              <Button type="link" danger>
+                Cancel
+              </Button>
             </Popconfirm>
-          </span>
+          </div>
         ) : (
           <div>
             <Button
