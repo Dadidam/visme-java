@@ -15,6 +15,10 @@ const setProjectSize = (action, state) => {
   return { ...state, projectPager };
 };
 
+const setTypeFilter = (action, state) => {
+  return { ...state, typeFilter: action.payload };
+};
+
 export default function (state = null, action) {
   switch (action.type) {
     case actions.CONNECTION_FAILED:
@@ -25,6 +29,8 @@ export default function (state = null, action) {
       return setProjectStart(action, state);
     case actions.CHANGE_PROJECT_PAGER_SIZE:
       return setProjectSize(action, state);
+    case actions.CHANGE_PROJECT_TYPE_FILTER:
+      return setTypeFilter(action, state);
     default:
       return state;
   }

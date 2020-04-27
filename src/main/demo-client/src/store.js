@@ -10,6 +10,7 @@ const appInitState = {
     size: 2,
     page: 1,
   },
+  typeFilter: null,
 };
 
 const store = createStore(

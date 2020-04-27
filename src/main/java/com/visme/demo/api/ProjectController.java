@@ -46,7 +46,7 @@ public class ProjectController {
 
         // DIRTY HACK, don't know hot to get rid of it ¯\_(ツ)_/¯
         // need it for pager total amount
-        List<Project> allEntries = projectService.fetchProjectList();
+        List<Project> allEntries = projectService.fetchProjectList(type);
 
         Pager pager = new Pager(start, size, allEntries.size());
 

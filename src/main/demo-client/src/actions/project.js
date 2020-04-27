@@ -14,7 +14,6 @@ export const addProject = (projectDetails) => async (dispatch) => {
 
     const url = `${apiUrl}/project`;
     const response = await restClient.post(url, projectDetails);
-    debugger;
     const payload = response.data;
 
     // add project to redux storage
@@ -55,9 +54,15 @@ export const fetchUserProjects = (userId) => async (dispatch) => {
 };
 
 // fetch ALL projects
-export const fetchProjectList = (start, size) => async (dispatch) => {
+export const fetchProjectList = (start, size, type) => async (dispatch) => {
   try {
-    const url = `${apiUrl}/project/list?start=${start}&size=${size}`;
+    let url = `${apiUrl}/project/list?start=${start}&size=${size}`;
+
+    // filter by type
+    if (typeof type === "boolean") {
+      url += `&type=${type}`;
+    }
+    
     const response = await restClient.get(url);
 
     const { data, pagination } = response.data;

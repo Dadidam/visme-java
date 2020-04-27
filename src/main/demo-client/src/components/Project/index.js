@@ -6,6 +6,7 @@ import { Empty, Badge } from "antd";
 import ProjectList from "components/Project/ProjectList";
 import AddButton from "components/Project/AddButton";
 import ProjectPager from "components/Project/ProjectPager";
+import TypeFilter from "components/Project/TypeFilter";
 import { fetchProjectList } from "actions/project";
 
 class ProjectIndex extends Component {
@@ -57,6 +58,7 @@ class ProjectIndex extends Component {
         <div className="btn-padding">
           <AddButton />
         </div>
+        <TypeFilter />
         {_.isEmpty(list) ? this.renderEmptyBox() : this.renderList(list)}
       </div>
     );

@@ -39,8 +39,8 @@ public class ProjectService {
         return projectDao.selectAllProjects(type, start, size);
     }
 
-    public List<Project> fetchProjectList() {
-        return projectDao.selectAllProjects();
+    public List<Project> fetchProjectList(Boolean type) {
+        return projectDao.selectAllProjects(type);
     }
 
     public Project getProjectById(UUID id) {

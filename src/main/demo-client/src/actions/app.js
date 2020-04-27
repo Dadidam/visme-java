@@ -27,3 +27,10 @@ export function changeProjectPagerSize(size = 2) {
     payload: size,
   };
 }
+
+export function changeProjectTypeFilter(type = null) {
+  return {
+    type: actions.CHANGE_PROJECT_TYPE_FILTER,
+    payload: type,
+  };
+}
